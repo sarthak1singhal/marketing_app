@@ -28,10 +28,6 @@ class Functions {
     );
 
 
-/*
-    jsonEncode(<String, String>{
-      'title': title,
-    })*/
   }
 
 

@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:marketing/functions/functions.dart';
 import 'package:marketing/functions/variables.dart';
+import 'package:marketing/home/influencer_main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Signup extends StatefulWidget {
@@ -36,7 +37,6 @@ class _MyHomePageState extends State<Signup> {
        "f_name" : f_name,
      "l_name" : s_name,
        "password_confirmation" : password_confirmation
-
      }));
 
      var s = jsonDecode(res.body);
@@ -90,6 +90,16 @@ class _MyHomePageState extends State<Signup> {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString("token", s["token"]);
         prefs.setString("access", s["access"]);
+        Variables.token = s["token"];
+        Variables.access = s["access"];
+
+        if(s["access"] == "influencer")
+        {
+          Navigator.pop(context);
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) =>  InfluencerMain()));
+        }
+
       }
 
       print(res.statusCode);

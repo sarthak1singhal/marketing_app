@@ -5,16 +5,23 @@ class Variables {
 
 
   static String signUp = "signup";
-
   static String signIn = "login";
 
-  static String brandRegister = "brand/register";
 
-  static String brandUpdate = "brand/update";
 
-  static String brands = "brands";
 
-  static String campaignDetails = "campaign_details";
+
+
+
+
+  static String token = "token";
+  static String access = "access";
+  static String mailVerified = "mailVerified";
+  static String firstName = "firstName";
+  static String lastName = "lastName";
+
+
+
 
 
 
