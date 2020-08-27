@@ -35,7 +35,7 @@ class _MyHomePageState extends State<Signup> {
        "password": password,
        "access" : type,
        "f_name" : f_name,
-     "l_name" : s_name,
+       "l_name" : s_name,
        "password_confirmation" : password_confirmation
      }));
 
@@ -53,8 +53,30 @@ class _MyHomePageState extends State<Signup> {
          }
      }else{
        SharedPreferences prefs = await SharedPreferences.getInstance();
-       prefs.setString("token", s["token"]);
-       prefs.setString("access", s["access"]);
+       prefs.setString(Variables.tokenString, s["token"]);
+       prefs.setString(Variables.accessString, s["access"]);
+       prefs.setString(Variables.firstNameString, capitalizeFirst(s["f_name"]));
+       prefs.setString(Variables.lastNameString, s["l_name"]);
+       prefs.setInt(Variables.isFacebookString,0);
+       prefs.setInt(Variables.isYoutubeString, 0);
+       prefs.setInt(Variables.isInstagramString, 0);
+
+
+
+       Variables.token = s["token"];
+       Variables.firstName = s["f_name"] == null ? "" : capitalizeFirst(s["f_name"]);
+       Variables.lastName = s["l_name"];
+       Variables.access = s["access"];
+       Variables.isYoutube = 0;
+       Variables.isInstagram = 0;
+       Variables.isFacebook = 0;
+
+       if(s["access"] == "influencer")
+       {
+         Navigator.pop(context);
+         Navigator.push(
+             context, MaterialPageRoute(builder: (context) =>  InfluencerMain()));
+       }
      }
 
      print(res.statusCode);
@@ -88,10 +110,23 @@ class _MyHomePageState extends State<Signup> {
         }
       }else{
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString("token", s["token"]);
-        prefs.setString("access", s["access"]);
+        prefs.setString(Variables.tokenString, s["token"]);
+        prefs.setString(Variables.accessString, s["access"]);
+        prefs.setString(Variables.firstNameString, capitalizeFirst(s["f_name"]));
+        prefs.setString(Variables.lastNameString, s["l_name"]);
+
+        prefs.setInt(Variables.isFacebookString, s["isFacebook"]);
+        prefs.setInt(Variables.isYoutubeString, s["isYoutube"]);
+        prefs.setInt(Variables.isInstagramString, s["isInstagram"]);
+
         Variables.token = s["token"];
+        Variables.firstName = s["f_name"]  == null ? "" : capitalizeFirst(s["f_name"]);
+        Variables.lastName = s["l_name"];
         Variables.access = s["access"];
+
+        Variables.isYoutube = s["isYoutube"];
+        Variables.isInstagram = s["isInstagram"];
+        Variables.isFacebook = s["isFacebook"];
 
         if(s["access"] == "influencer")
         {
@@ -225,5 +260,14 @@ class _MyHomePageState extends State<Signup> {
         ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+
+
+  String capitalizeFirst(String s) {
+   if(s.length>1)
+    return s[0].toUpperCase() + s.substring(1);
+
+   return s;
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:marketing/functions/variables.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,7 +14,7 @@ class Functions {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString('token');
 
-    if(token == null)
+     if(token == null)
       {
         print("SIGN IN");
         return null;
@@ -33,7 +34,32 @@ class Functions {
 
 
 
-   static Future<http.Response> unsignPostReq(String secondUrl, String params) {
+
+  static Future<http.Response> getReq(String secondUrl, String params) async {
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString('token');
+
+    if(token == null)
+    {
+      print("SIGN IN");
+      return null;
+    }
+    return http.get(
+      Variables.baseUrl + secondUrl,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'token' : token
+      },
+     );
+
+
+  }
+
+
+
+
+  static Future<http.Response> unsignPostReq(String secondUrl, String params) {
     return http.post(
       Variables.baseUrl + secondUrl,
       headers: <String, String>{
@@ -44,6 +70,10 @@ class Functions {
   }
 
 
+
+  static Widget showLoader(){
+    return Center(child: Container(height: 50, width: 50, child: CircularProgressIndicator(),),);
+  }
 
 
 

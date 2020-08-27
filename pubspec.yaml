@@ -26,6 +26,9 @@ dependencies:
   cupertino_icons: ^0.1.3
   http:
   shared_preferences:
+  extended_nested_scroll_view:
+  bubble_tab_indicator:
+  flutter_vector_icons:
 
 dev_dependencies:
   flutter_test:

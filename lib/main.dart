@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:marketing/functions/LocalColors.dart';
 import 'package:marketing/functions/variables.dart';
-import 'package:marketing/home/home.dart';
+import 'package:marketing/home/homeParent.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'authentication/signup.dart';
@@ -11,9 +12,9 @@ void main() {
 
 
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    statusBarColor: Colors.white, //top bar color
+    statusBarColor: LocalColors.backgroundLight, //top bar color
     statusBarIconBrightness: Brightness.dark, //top bar icons
-    systemNavigationBarColor: Colors.white, //bottom bar color
+    systemNavigationBarColor: LocalColors.backgroundLight, //bottom bar color
 
     systemNavigationBarIconBrightness: Brightness.dark, //bottom bar icons
   ));
@@ -80,9 +81,13 @@ class StartAppState extends State<StartApp> {
   getWindow () async{
 
     loading = 0;
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    Variables.token = prefs.getString("token");
-    Variables.access = prefs.getString("access");
+
+    Variables.token = prefs.getString(Variables.tokenString);
+    Variables.access = prefs.getString(Variables.accessString) ;
+    Variables.firstName = prefs.getString(Variables.firstNameString) == null ? "" : prefs.getString(Variables.firstNameString) ;
+    Variables.lastName = prefs.getString(Variables.lastNameString) == null ? "" : prefs.getString(Variables.lastNameString) ;
 
     if(Variables.token !=null)
       {

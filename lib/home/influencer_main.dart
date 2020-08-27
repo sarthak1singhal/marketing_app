@@ -3,8 +3,10 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:marketing/authentication/signup.dart';
+import 'package:marketing/functions/LocalColors.dart';
 
-import 'home.dart';
+import 'homeParent.dart';
 
 class InfluencerMain extends StatefulWidget {
   InfluencerMain({Key key}) : super(key: key);
@@ -17,13 +19,21 @@ class _MyStatefulWidgetState extends State<InfluencerMain> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  int _currentIndex = 0;
+
+  // add
+  final pageController = PageController();
+  void onPageChanged(int index) {
+    pageController.jumpToPage(index);
+
+    setState(() {
+      _currentIndex = index;
+    });
+  }
 
       List<Widget> _widgetOptions = <Widget>[
    Home(),
-    Text(
-      'Index 1: Business',
-      style: optionStyle,
-    ),
+  Signup(),
     Text(
       'Index 2: School',
       style: optionStyle,
@@ -31,6 +41,8 @@ class _MyStatefulWidgetState extends State<InfluencerMain> {
   ];
 
   void _onItemTapped(int index) {
+    pageController.jumpToPage(index);
+
     setState(() {
       _selectedIndex = index;
     });
@@ -39,12 +51,12 @@ class _MyStatefulWidgetState extends State<InfluencerMain> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('BottomNavigationBar Sample'),
-      ),
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
+
+      body: PageView(
+        physics:new NeverScrollableScrollPhysics(),
+        children: _widgetOptions,
+        controller: pageController,
+       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -56,15 +68,17 @@ class _MyStatefulWidgetState extends State<InfluencerMain> {
             title: Text('Business'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            title: Text('School'),
+            icon: Icon(Icons.person),
+            title: Text('Profile'),
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
+        unselectedItemColor: Colors.black38,
+        selectedItemColor: Colors.black87.withAlpha(170),
         onTap: _onItemTapped,
       ),
     );
   }
+
 }
 
