@@ -1,6 +1,7 @@
 class Variables {
 
   static String baseUrl ="http://ec2-13-235-17-220.ap-south-1.compute.amazonaws.com:3000/";
+  static String ourImage = "http://via.placeholder.com/350x350";
 
 
 
@@ -34,20 +35,21 @@ class Variables {
   static String registerYoutube = "register/youtube";
   static String registerFacebook = "register/facebook";
   static String registerInstagram = "register/instagram";
+  static String getProfile = "profile";
 
 
 
 
 
   //These names are used as variables in shared preferences
-  static String tokenString = "token";
-  static String accessString = "access";
-  static String mailVerifiedString = "mailVerified";
-  static String firstNameString = "firstName";
-  static String lastNameString = "lastName";
-  static String isYoutubeString = "isYoutube";
-  static String isFacebookString = "isFacebook";
-  static String isInstagramString = "isInstagram";
+  static final  String tokenString = "token";
+  static final String accessString = "access";
+  static final String mailVerifiedString = "mailVerified";
+  static final String firstNameString = "firstName";
+  static final String lastNameString = "lastName";
+  static final String isYoutubeString = "isYoutube";
+  static final String isFacebookString = "isFacebook";
+  static final String isInstagramString = "isInstagram";
 
 
 
@@ -57,6 +59,7 @@ class Variables {
   static String token = "token";
   static String access = "access";
   static String mailVerified = "mailVerified";
+  static String profile_image = "";
   static String firstName = "firstName";
   static String lastName = "lastName";
   static int isInstagram = 0;

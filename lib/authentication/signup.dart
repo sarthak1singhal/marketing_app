@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:marketing/functions/functions.dart';
 import 'package:marketing/functions/variables.dart';
-import 'package:marketing/home/influencer_main.dart';
+import 'package:marketing/InfluencerHome//influencer_main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Signup extends StatefulWidget {

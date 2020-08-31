@@ -3,6 +3,8 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:marketing/Influencer/myProfile.dart';
 import 'package:marketing/authentication/signup.dart';
 import 'package:marketing/functions/LocalColors.dart';
 
@@ -37,7 +39,7 @@ class _MyStatefulWidgetState extends State<InfluencerMain> {
     Text(
       'Index 2: School',
       style: optionStyle,
-    ),
+    ), Profile()
   ];
 
   void _onItemTapped(int index) {
@@ -64,8 +66,12 @@ class _MyStatefulWidgetState extends State<InfluencerMain> {
             title: Text('Home'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            title: Text('Business'),
+            icon: Icon(MaterialCommunityIcons.upload),
+            title: Text('Submissions'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.payment),
+            title: Text('Payment'),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),

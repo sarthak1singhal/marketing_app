@@ -27,9 +27,10 @@ class _MyHomePageState extends State<Home>    with SingleTickerProviderStateMixi
 
   @override
   void initState() {
-    primaryTC = new TabController(length: 2, vsync: this);
     super.initState();
+    primaryTC = new TabController(length: 2, vsync: this);
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -67,6 +68,8 @@ class _MyHomePageState extends State<Home>    with SingleTickerProviderStateMixi
               pinnedHeaderSliverHeightBuilder: () {
                 return statusBarHeight+5;
               },
+              physics: const BouncingScrollPhysics(),
+
               body: Column(
                 children: <Widget>[
                   Padding(
@@ -84,7 +87,6 @@ class _MyHomePageState extends State<Home>    with SingleTickerProviderStateMixi
                       tabs: [
                         Tab(text: "For Me"),
                         Tab(text: "All Campaigns"),
-
                       ],
                     ),
                       padding: EdgeInsets.only(left: 13,right: 13),
@@ -101,7 +103,6 @@ class _MyHomePageState extends State<Home>    with SingleTickerProviderStateMixi
                   )
                 ],
               )
-
           ),
         )
     );
@@ -111,7 +112,6 @@ class _MyHomePageState extends State<Home>    with SingleTickerProviderStateMixi
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
-
 
 
 }

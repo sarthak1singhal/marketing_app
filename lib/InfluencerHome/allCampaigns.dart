@@ -1,8 +1,11 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:marketing/Influencer/CampaignDetails.dart';
+import 'package:marketing/Influencer/CampaignDetails2.dart';
 import 'package:marketing/functions/LocalColors.dart';
 import 'package:marketing/functions/functions.dart';
 import 'package:marketing/functions/variables.dart';
@@ -24,7 +27,6 @@ class _MyHomePageState extends State<AllCampaigns>
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     loadData();
     controller.addListener(() async {
@@ -59,6 +61,7 @@ class _MyHomePageState extends State<AllCampaigns>
           isMore = false;
         }
       }
+
       setState(() {});
       moreLoad = false;
     }
@@ -90,6 +93,8 @@ class _MyHomePageState extends State<AllCampaigns>
         }
       }
 
+      //print(list);
+
 
       setState(() {
         isLoading = false;
@@ -115,9 +120,7 @@ class _MyHomePageState extends State<AllCampaigns>
                   return Container(
                       //constraints: BoxConstraints(minHeight: 110, maxHeight: 150),
                       height: 160,
-                      //color: Colors.grey[i*100],
-                      // constraints: BoxConstraints(minHeight: 140, maxHeight: 150),
-                      child: Stack(
+                       child: Stack(
                         children: <Widget>[
                           GestureDetector(
                             child: Stack(
@@ -193,8 +196,10 @@ class _MyHomePageState extends State<AllCampaigns>
                                       ),
                                       shadowColor: Colors.black54,
                                       elevation: 1,
-                                      child: Container(
-                                        child: Icon(
+                                      child:list[i]["logo"]==""?
+
+                                      Container(
+                                        child:  Icon(
                                           Icons.person,
                                           color: Colors.white60,
                                           size: 35,
@@ -205,6 +210,20 @@ class _MyHomePageState extends State<AllCampaigns>
                                         decoration: new BoxDecoration(
                                           color: Colors.teal,
                                           borderRadius: new BorderRadius.all(
+                                              const Radius.circular(10.0)),
+                                        ),
+                                      )
+
+                                          :Container(
+                                        width: 67,
+                                        height: 67,
+                                        //  color: Colors.grey,
+                                        decoration: new BoxDecoration(
+                                           image: DecorationImage(
+                                             image: CachedNetworkImageProvider("http://via.placeholder.com/350x350",
+                                             ),
+                                           ),
+                                           borderRadius: new BorderRadius.all(
                                               const Radius.circular(10.0)),
                                         ),
                                       ),
@@ -261,7 +280,14 @@ class _MyHomePageState extends State<AllCampaigns>
                                 )
                               ],
                             ),
-                            onTap: () {},
+                            onTap: () {
+
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => CampaignDetails2(id: list[i]["id"],data: list[i])),
+                              );
+
+                            },
                           ),
 
                           //type==0 || isSearching ? searchable[i].uploaderName == uid ? getPopup(i,2) : Container():list[i].uploaderName == uid ? getPopup(i,1) : Container()
@@ -276,3 +302,6 @@ class _MyHomePageState extends State<AllCampaigns>
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 }
+
+
+

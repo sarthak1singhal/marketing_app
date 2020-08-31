@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:marketing/functions/LocalColors.dart';
 import 'package:marketing/functions/variables.dart';
-import 'package:marketing/home/homeParent.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'authentication/signup.dart';
-import 'home/influencer_main.dart';
+import 'InfluencerHome/influencer_main.dart';
 
 void main() {
 
@@ -69,12 +68,13 @@ class StartApp extends StatefulWidget {
 class StartAppState extends State<StartApp> {
 
 
-  //if loading, then 0. if signup, then loading = 1, if influencer, then loading = 2. if client then loading = 3
+  //if loading, then 0. if signup then loading = 1, if influencer then loading = 2. if client then loading = 3
   int loading = 0;
 
 
   @override
   void initState() {
+    super.initState();
     getWindow();
   }
 
@@ -89,11 +89,21 @@ class StartAppState extends State<StartApp> {
     Variables.firstName = prefs.getString(Variables.firstNameString) == null ? "" : prefs.getString(Variables.firstNameString) ;
     Variables.lastName = prefs.getString(Variables.lastNameString) == null ? "" : prefs.getString(Variables.lastNameString) ;
 
+
+
+
     if(Variables.token !=null)
       {
         if(Variables.access == "influencer")
           {
             loading = 2;
+
+            Variables.isFacebook = prefs.getInt(Variables.isFacebookString);
+            Variables.isInstagram = prefs.getInt(Variables.isInstagramString);
+            Variables.isYoutube = prefs.getInt(Variables.isYoutubeString);
+
+
+
           }
       }
     else{
