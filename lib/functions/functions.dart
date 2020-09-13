@@ -5,6 +5,7 @@ import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
 import 'package:flutter_web_view/flutter_web_view.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:marketing/authentication/login.dart';
 import 'package:marketing/functions/variables.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,27 +13,78 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Functions {
 
 
-  static Future<http.Response> postReq(String secondUrl, String params) async {
+  static Future<http.Response> postReq(String secondUrl, String params, BuildContext context) async {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String token = prefs.getString('token');
+    String token = prefs.getString(Variables.tokenString);
+    String refreshtoken = prefs.getString(Variables.refreshTokenString);
+
+    print("OLD TOKEN IS" + refreshtoken );
 
      if(token == null)
       {
         print("SIGN IN");
         return null;
       }
-    return http.post(
+    http.Response g = await  http.post(
       Variables.baseUrl + secondUrl,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
-        'token' : token
+        'token' : token,
+        'refresh_token' : refreshtoken
       },
       body: params,
     );
 
+     if(g.statusCode == 403)
+       {
+         Navigator.of(context).popUntil(ModalRoute.withName('/'));
+
+         Navigator.pop(context);
+
+         Navigator.push(context, MaterialPageRoute(builder: (context) =>  Login()));
+
+         prefs.setString(Variables.tokenString, "");
+         prefs.setString(Variables.refreshTokenString, "");
+         Variables.refreshToken = "";
+         Variables.token= "";
+
+
+         return null;
+       }
+
+     var l = g.headers["set-cookie"].split("HttpOnly,");
+     for(int i= 0; i< l.length; i++)
+      {
+
+
+        if(l[i].split("; ")[0].contains("access_token=")) {
+
+          prefs.setString(Variables.tokenString, l[i].split("; ")[0].replaceAll("access_token=", ""));
+          Variables.token = l[i].split("; ")[0].replaceAll("access_token=", "");
+
+
+        }
+        if(l[i].split("; ")[0].contains("refresh_token=")) {
+
+          prefs.setString(Variables.refreshTokenString, l[i].split("; ")[0].replaceAll("refresh_token=", ""));
+          Variables.refreshToken = l[i].split("; ")[0].replaceAll("refresh_token=", "");
+
+
+
+        }
+
+
+      }
+
+
+
+    print(g.headers["set-cookie"]);
+     return g;
 
   }
+
+
 
 
 
@@ -55,6 +107,8 @@ class Functions {
         'token' : token
       },
      );
+    //var s = jsonDecode(g.he);
+
 
 
   }
@@ -65,6 +119,7 @@ class Functions {
 
 
   static Future<http.Response> unsignPostReq(String secondUrl, String params) {
+    print(secondUrl);
     return http.post(
       Variables.baseUrl + secondUrl,
       headers: <String, String>{
@@ -84,7 +139,7 @@ class Functions {
   static Widget backButton(context){
     return
     IconButton(
-      icon: Icon(Icons.arrow_back_ios),
+      icon: Icon(Icons.arrow_back_ios, size: 18,),
       onPressed: (){
         Navigator.pop(context);
       },
@@ -123,6 +178,17 @@ class Functions {
     );*/
   }
 
+
+
+
+  static   String capitalizeFirst(String s) {
+    if(s.length>1)
+      return s[0].toUpperCase() + s.substring(1);
+
+    return s;
+  }
+
+
   static  Future<void> linkIgFromAllCamp(context) async {
     return showDialog<void>(
       context: context,
@@ -149,6 +215,8 @@ class Functions {
       },
     );
   }
+
+
 
   static bool isNullEmptyOrFalse(Object o) =>
       o == null || false == o || "" == o || 0==o;
@@ -248,42 +316,31 @@ class Functions {
 
 
 
-  static openWebView() async{
+  static openWebView(String url,Map<String, String> header) async{
     FlutterWebView flutterWebView = new FlutterWebView();
 
 
-    print(Variables.token);
-    print(        Variables.baseUrl + Variables.registerYoutube,
-    );
+
 
     flutterWebView.launch(
-        Variables.baseUrl + Variables.registerYoutube,
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-          'token' : Variables.token
-        },
+
+        url,
+        headers: header,
         javaScriptEnabled: true,
         toolbarActions: [
-          new ToolbarAction("Dismiss", 1),
-          new ToolbarAction("Reload", 2)
-        ],
-        inlineMediaEnabled: true,
+          new ToolbarAction("Close", 1),
+         ],
 
-        barColor: Colors.green,
+        inlineMediaEnabled: false,
+
+        barColor: Colors.black87,
         tintColor: Colors.white);
     flutterWebView.onToolbarAction.listen((identifier) {
       switch (identifier) {
         case 1:
           flutterWebView.dismiss();
           break;
-        case 2:
-          flutterWebView.load(
-            "https://google.com",
-            headers: {
-                'Content-Type': 'application/json; charset=UTF-8',
-                'token' : Variables.token
-                          },
-          );
+
           break;
       }
     });
@@ -291,6 +348,16 @@ class Functions {
 
 
   }
+
+
+
+  static showSnackBar(_scaffoldKey, message){
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      content: Text(message),
+    ));
+  }
+
+
 
 
 

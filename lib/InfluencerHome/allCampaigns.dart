@@ -50,7 +50,7 @@ class _MyHomePageState extends State<AllCampaigns>
       setState(() {});
 
       var res = await Functions.postReq(
-          Variables.AllCampaigns, jsonEncode({"page": pageNo.toString()}));
+          Variables.AllCampaigns, jsonEncode({"page": pageNo.toString()}), context);
 
       var s = jsonDecode(res.body);
       if (!s["isError"]) {
@@ -80,7 +80,7 @@ class _MyHomePageState extends State<AllCampaigns>
   loadData() async {
     if (list.length == 0) {
       var res = await Functions.postReq(
-          Variables.AllCampaigns, jsonEncode({"page": pageNo.toString()}));
+          Variables.AllCampaigns, jsonEncode({"page": pageNo.toString()}), context);
 
       var s = jsonDecode(res.body);
 

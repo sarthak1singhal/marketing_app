@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:marketing/authentication/login.dart';
 import 'package:marketing/functions/LocalColors.dart';
 import 'package:marketing/functions/variables.dart';
  import 'package:shared_preferences/shared_preferences.dart';
@@ -11,9 +12,9 @@ void main() {
 
 
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    statusBarColor: LocalColors.backgroundLight, //top bar color
+    statusBarColor: Colors.white, //top bar color
     statusBarIconBrightness: Brightness.dark, //top bar icons
-    systemNavigationBarColor: LocalColors.backgroundLight, //bottom bar color
+    systemNavigationBarColor: Colors.white, //bottom bar color
 
     systemNavigationBarIconBrightness: Brightness.dark, //bottom bar icons
   ));
@@ -29,8 +30,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner : false,
 
+      debugShowCheckedModeBanner : false,
+        initialRoute: '/',
+        routes: {
+          // When navigating to the "/" route, build the FirstScreen widget.
+          '/': (context) => StartApp(),
+          '/login': (context) => Login(),
+          '/signup': (context) => Signup(0)
+          // When navigating to the "/second" route, build the SecondScreen widget.
+          //'/second': (context) => SecondScreen(),
+        },
       title: 'Flutter Demo',
       theme: ThemeData(
 
@@ -45,7 +55,7 @@ class MyApp extends StatelessWidget {
             labelStyle: TextStyle(color: Colors.black45),
           )
       ),
-      home: StartApp()
+     //  home: StartApp()
     );
   }
 
@@ -85,6 +95,7 @@ class StartAppState extends State<StartApp> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     Variables.token = prefs.getString(Variables.tokenString);
+    Variables.refreshToken = prefs.getString(Variables.refreshTokenString);
     Variables.access = prefs.getString(Variables.accessString) ;
     Variables.firstName = prefs.getString(Variables.firstNameString) == null ? "" : prefs.getString(Variables.firstNameString) ;
     Variables.lastName = prefs.getString(Variables.lastNameString) == null ? "" : prefs.getString(Variables.lastNameString) ;
@@ -98,10 +109,10 @@ class StartAppState extends State<StartApp> {
           {
             loading = 2;
 
+
             Variables.isFacebook = prefs.getInt(Variables.isFacebookString);
             Variables.isInstagram = prefs.getInt(Variables.isInstagramString);
             Variables.isYoutube = prefs.getInt(Variables.isYoutubeString);
-
 
 
           }
@@ -121,7 +132,7 @@ class StartAppState extends State<StartApp> {
   Widget build(BuildContext context) {
     return Scaffold(
 
-        body: loading == 0 ? Center(): loading == 1 ? Signup() : InfluencerMain(),
+        body: loading == 0 ? Center(): loading == 1 ? Login() : InfluencerMain(),
 
     );
   }

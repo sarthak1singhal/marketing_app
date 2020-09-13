@@ -5,6 +5,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:marketing/Influencer/myProfile.dart';
+import 'package:marketing/InfluencerPayments/WalletMain.dart';
+import 'package:marketing/authentication/login.dart';
 import 'package:marketing/authentication/signup.dart';
 import 'package:marketing/functions/LocalColors.dart';
 
@@ -35,11 +37,10 @@ class _MyStatefulWidgetState extends State<InfluencerMain> {
 
       List<Widget> _widgetOptions = <Widget>[
    Home(),
-  Signup(),
-    Text(
-      'Index 2: School',
-      style: optionStyle,
-    ), Profile()
+  Login(),
+
+        InfluencerWallet()
+        , Profile()
   ];
 
   void _onItemTapped(int index) {
@@ -60,6 +61,9 @@ class _MyStatefulWidgetState extends State<InfluencerMain> {
         controller: pageController,
        ),
       bottomNavigationBar: BottomNavigationBar(
+        elevation: 6,
+
+        backgroundColor: Colors.white,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -71,7 +75,7 @@ class _MyStatefulWidgetState extends State<InfluencerMain> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.payment),
-            title: Text('Payment'),
+            title: Text('Wallet'),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
@@ -79,8 +83,8 @@ class _MyStatefulWidgetState extends State<InfluencerMain> {
           ),
         ],
         currentIndex: _selectedIndex,
-        unselectedItemColor: Colors.black38,
-        selectedItemColor: Colors.black87.withAlpha(170),
+        unselectedItemColor: Colors.black26,
+        selectedItemColor: LocalColors.secondaryColor.withAlpha(180),//Colors.black87.withAlpha(170),
         onTap: _onItemTapped,
       ),
     );
